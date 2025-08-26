@@ -101,7 +101,8 @@
     const urlParams = new URLSearchParams(window.location.search);
     const selectedLab = urlParams.get('lab');
     const emailFromUrl = urlParams.get('email');
-    const ticketIDFromUrl = urlParams.get('ticketID'); // ⬅️ ADDED
+    const ticketIDFromUrl = urlParams.get('ticketID'); 
+    const nameFromUrl = urlParams.get('name');// ⬅️ ADDED
 
     // Map lab codes to display names
     const labDisplayNames = {
@@ -122,7 +123,10 @@
         document.getElementById('emailInput').value = emailFromUrl;
     }
     if (ticketIDFromUrl) { // ⬅️ ADDED
-        document.getElementById('ticketIDInput').value = ticketIDFromUrl; // ⬅️ ADDED
+        document.getElementById('ticketIDInput').value = ticketIDFromUrl; 
+    }
+    if (nameFromUrl) {
+    document.getElementById('participantNameInput').value = nameFromUrl; // ⬅️ ADDED
     }
     
     if (selectedLab && labDisplayNames[selectedLab]) {
