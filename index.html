@@ -154,7 +154,8 @@
         const email = document.getElementById('emailInput').value;
         const lab = document.getElementById('selectedLabInput').value;
         const photo = document.getElementById('photoInput').files[0];
-        const ticketID = (document.getElementById('ticketIDInput').value || '').trim(); // ⬅️ ADDED
+        const ticketID = (document.getElementById('ticketIDInput').value || '').trim(); 
+        const participantName = (document.getElementById('participantNameInput').value || '').trim(); // ⬅️ ADDED
 
         if (!lab) {
             alert('No lab selected. Please go back to the email and select a lab.');
