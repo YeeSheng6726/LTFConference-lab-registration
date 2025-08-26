@@ -31,6 +31,7 @@
 
             <!-- Hidden Lab Input -->
             <input type="hidden" name="selectedLab" id="selectedLabInput">
+            <input type="hidden" name="ticketID" id="ticketIDInput">
 
             <!-- Optional Photo Upload -->
             <div style="margin-bottom: 25px;">
@@ -99,6 +100,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const selectedLab = urlParams.get('lab');
         const emailFromUrl = urlParams.get('email');
+        const ticketIDFromUrl = urlParams.get('ticketID');
 
         // Map lab codes to display names
         const labDisplayNames = {
@@ -118,7 +120,10 @@
         if (emailFromUrl) {
             document.getElementById('emailInput').value = emailFromUrl;
         }
-
+        if (ticketIDFromUrl) {
+            document.getElementById('ticketIDInput').value = ticketIDFromUrl;
+        }
+        
         if (selectedLab && labDisplayNames[selectedLab]) {
             document.getElementById('labNameDisplay').textContent = labDisplayNames[selectedLab];
             document.getElementById('selectedLabInput').value = selectedLab;
