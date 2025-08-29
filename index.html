@@ -114,10 +114,10 @@
     <script>
     // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-    let selectedLab = urlParams.get('lab');
+    let selectedLab = urlParams.get('selectedLab');
     const emailFromUrl = urlParams.get('email');
     const ticketIDFromUrl = urlParams.get('ticketID'); 
-    const nameFromUrl = urlParams.get('name');
+    const nameFromUrl = urlParams.get('participantName');
     
     // Decode lab name properly (replace + with spaces too)
     if (selectedLab) {
