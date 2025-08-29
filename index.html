@@ -114,49 +114,55 @@
     <script>
     // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const selectedLab = urlParams.get('lab');
+    let selectedLab = urlParams.get('lab');
     const emailFromUrl = urlParams.get('email');
     const ticketIDFromUrl = urlParams.get('ticketID'); 
     const nameFromUrl = urlParams.get('name');
-
+    
+    // Decode lab name properly (replace + with spaces too)
+    if (selectedLab) {
+      selectedLab = decodeURIComponent(selectedLab).replace(/\+/g, " ");
+    }
+    
     // Map lab codes to display names
     const labDisplayNames = {
-        'AI Data Analytics': '🤖 AI Data Analytics (Edmund Hee & Christine Tee)',
-        'AI Vibe Coding UX': '💻 AI Vibe Coding + UX (Marcus Chia & Shaza Hakim)',
-        'AI Automation': '⚡ AI Automation (Chan Wei Khjan & Choon Yee Sheng)'
+      'AI Data Analytics': '🤖 AI Data Analytics (Edmund Hee & Christine Tee)',
+      'AI Vibe Coding UX': '💻 AI Vibe Coding + UX (Marcus Chia & Shaza Hakim)',
+      'AI Automation': '⚡ AI Automation (Chan Wei Khjan & Choon Yee Sheng)'
     };
-
+    
     // Set colors for different labs
     const labColors = {
-        'AI Data Analytics': { bg: '#e3f2fd', border: '#3498db', text: '#1976d2' },
-        'AI Vibe Coding UX': { bg: '#e8f5e8', border: '#27ae60', text: '#2e7d32' },
-        'AI Automation': { bg: '#fff3e0', border: '#e67e22', text: '#f57c00' }
+      'AI Data Analytics': { bg: '#e3f2fd', border: '#3498db', text: '#1976d2' },
+      'AI Vibe Coding UX': { bg: '#e8f5e8', border: '#27ae60', text: '#2e7d32' },
+      'AI Automation': { bg: '#fff3e0', border: '#e67e22', text: '#f57c00' }
     };
-
+    
     // Populate form with URL data
     if (nameFromUrl) {
-        document.getElementById('participantNameInput').value = nameFromUrl;
+      document.getElementById('participantNameInput').value = nameFromUrl;
     }
     if (ticketIDFromUrl) {
-        document.getElementById('ticketIDInput').value = ticketIDFromUrl; 
+      document.getElementById('ticketIDInput').value = ticketIDFromUrl; 
     }
     if (emailFromUrl) {
-        document.getElementById('emailInput').value = emailFromUrl;
+      document.getElementById('emailInput').value = emailFromUrl;
     }
     
     if (selectedLab && labDisplayNames[selectedLab]) {
-        document.getElementById('labNameDisplay').textContent = labDisplayNames[selectedLab];
-        document.getElementById('selectedLabInput').value = selectedLab;
-        const colors = labColors[selectedLab];
-        const displayDiv = document.getElementById('selectedLabDisplay');
-        displayDiv.style.background = colors.bg;
-        displayDiv.style.borderColor = colors.border;
-        document.getElementById('labNameDisplay').style.color = colors.text;
+      document.getElementById('labNameDisplay').textContent = labDisplayNames[selectedLab];
+      document.getElementById('selectedLabInput').value = selectedLab;
+      const colors = labColors[selectedLab];
+      const displayDiv = document.getElementById('selectedLabDisplay');
+      displayDiv.style.background = colors.bg;
+      displayDiv.style.borderColor = colors.border;
+      document.getElementById('labNameDisplay').style.color = colors.text;
     } else {
-        document.getElementById('selectedLabDisplay').innerHTML = 
-            '<h3 style="color: #dc3545; margin: 0;">❌ No lab selected</h3>' +
-            '<p style="margin: 5px 0 0 0; color: #666;">Please go back to the email and select a lab.</p>';
+      document.getElementById('selectedLabDisplay').innerHTML = 
+        '<h3 style="color: #dc3545; margin: 0;">❌ No lab selected</h3>' +
+        '<p style="margin: 5px 0 0 0; color: #666;">Please go back to the email and select a lab.</p>';
     }
     </script>
+
 </body>
 </html>
