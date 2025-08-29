@@ -196,8 +196,13 @@
             });
             
             if (response.ok) {
-                // Success
+                // Success - Hide form content and show success message
                 document.getElementById('loadingMsg').style.display = 'none';
+                document.querySelector('h2').style.display = 'none'; // Hide header
+                document.querySelector('p').style.display = 'none'; // Hide subtitle
+                document.getElementById('selectedLabDisplay').style.display = 'none'; // Hide lab display
+                document.querySelector('p:nth-of-type(2)').style.display = 'none'; // Hide reselect note
+                document.getElementById('labRegistrationForm').style.display = 'none'; // Hide entire form
                 document.getElementById('successMsg').style.display = 'block';
             } else {
                 throw new Error('Server responded with error: ' + response.status);
