@@ -10,12 +10,12 @@
         
         <!-- Header -->
         <h2 style="text-align:center; color:#2c3e50; margin-bottom: 10px;">Breakout Lab Registration</h2>
-        <p style="text-align:center; color:#666; margin-bottom: 30px; font-size: 14px;">
+        <p id="conferenceSubtitle" style="text-align:center; color:#666; margin-bottom: 30px; font-size: 14px;">
             <b><i>Lead The Future Conference 2025</i></b>
         </p>
         
         <!-- Step 1 Label -->
-        <div style="font-family: Arial, sans-serif; margin: 20px 0 10px 0; padding: 0;">
+        <div id="step1Header" style="font-family: Arial, sans-serif; margin: 20px 0 10px 0; padding: 0;">
             <h3 style="margin-top: 0; color: #0d47a1; font-size: 20px;">Step 1: Choose Your Breakout Lab</h3>
         </div>
 
@@ -26,7 +26,7 @@
         </div>
 
         <!-- Reselect Note -->
-        <p style="font-size: 14px; color: #666; margin: 0 0 30px 0;">
+        <p id="reselectNote" style="font-size: 14px; color: #666; margin: 0 0 30px 0;">
             💡If you wish to reselect your Breakout Lab, please return to your email and select the correct Breakout Lab button.
         </p>
         
@@ -45,7 +45,7 @@
             <input type="hidden" name="email" id="emailInput">
 
             <!-- Step 2 Label (moved outside box) -->
-            <div style="font-family: Arial, sans-serif; margin: 20px 0 10px 0; padding: 0;">
+            <div id="step2Header" style="font-family: Arial, sans-serif; margin: 20px 0 10px 0; padding: 0;">
                 <h3 style="margin-top: 0; color: #0d47a1; font-size: 20px;">Step 2 (Optional): Upload Your Personal Photo</h3>
             </div>
 
@@ -119,7 +119,7 @@
     const ticketIDFromUrl = urlParams.get('ticketID'); 
     const nameFromUrl = urlParams.get('participantName');
     
-    // Decode lab name properly (replace + with spaces too)
+    // Decode lab name properly
     if (selectedLab) {
       selectedLab = decodeURIComponent(selectedLab).replace(/\+/g, " ");
     }
@@ -131,23 +131,17 @@
       'AI Automation': '⚡ AI Automation (Chan Wei Khjan & Choon Yee Sheng)'
     };
     
-    // Set colors for different labs
+    // Set colors
     const labColors = {
       'AI Data Analytics': { bg: '#e3f2fd', border: '#3498db', text: '#1976d2' },
       'AI Vibe Coding UX': { bg: '#e8f5e8', border: '#27ae60', text: '#2e7d32' },
       'AI Automation': { bg: '#fff3e0', border: '#e67e22', text: '#f57c00' }
     };
     
-    // Populate form with URL data
-    if (nameFromUrl) {
-      document.getElementById('participantNameInput').value = nameFromUrl;
-    }
-    if (ticketIDFromUrl) {
-      document.getElementById('ticketIDInput').value = ticketIDFromUrl; 
-    }
-    if (emailFromUrl) {
-      document.getElementById('emailInput').value = emailFromUrl;
-    }
+    // Populate form
+    if (nameFromUrl) document.getElementById('participantNameInput').value = nameFromUrl;
+    if (ticketIDFromUrl) document.getElementById('ticketIDInput').value = ticketIDFromUrl;
+    if (emailFromUrl) document.getElementById('emailInput').value = emailFromUrl;
     
     if (selectedLab && labDisplayNames[selectedLab]) {
       document.getElementById('labNameDisplay').textContent = labDisplayNames[selectedLab];
@@ -163,60 +157,49 @@
         '<p style="margin: 5px 0 0 0; color: #666;">Please go back to the email and select a lab.</p>';
     }
 
-    // ✅ NEW CODE: Handle form submission and send to webhook
+    // ✅ Updated submission handling
     document.getElementById('labRegistrationForm').addEventListener('submit', async function(e) {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
         
-        // Show loading message
         document.getElementById('loadingMsg').style.display = 'block';
         document.getElementById('successMsg').style.display = 'none';
         document.getElementById('errorMsg').style.display = 'none';
         document.getElementById('submitBtn').disabled = true;
         
         try {
-            // Prepare form data
             const formData = new FormData();
-            
-            // Add text fields
             formData.append('participantName', document.getElementById('participantNameInput').value);
             formData.append('selectedLab', document.getElementById('selectedLabInput').value);
             formData.append('ticketID', document.getElementById('ticketIDInput').value);
             formData.append('email', document.getElementById('emailInput').value);
-            
-            // Add photo if uploaded
             const photoFile = document.getElementById('photoInput').files[0];
-            if (photoFile) {
-                formData.append('photo', photoFile);
-            }
-            
-            // Send to webhook
+            if (photoFile) formData.append('photo', photoFile);
+
             const response = await fetch('https://ys286.zeabur.app/webhook-test/c057cf94-882e-4281-93e5-78a030c1e6d2', {
                 method: 'POST',
                 body: formData
             });
             
             if (response.ok) {
-                // Success - Hide form content and show success message
                 document.getElementById('loadingMsg').style.display = 'none';
-                document.querySelector('h2').style.display = 'none'; // Hide header
-                document.querySelector('p').style.display = 'none'; // Hide subtitle
-                document.getElementById('selectedLabDisplay').style.display = 'none'; // Hide lab display
-                document.querySelector('p:nth-of-type(2)').style.display = 'none'; // Hide reselect note
-                document.getElementById('labRegistrationForm').style.display = 'none'; // Hide entire form
+                // hide step headers + form content
+                document.getElementById('step1Header').style.display = 'none';
+                document.getElementById('selectedLabDisplay').style.display = 'none';
+                document.getElementById('reselectNote').style.display = 'none';
+                document.getElementById('step2Header').style.display = 'none';
+                document.getElementById('labRegistrationForm').style.display = 'none';
+                // keep main header & subtitle visible
                 document.getElementById('successMsg').style.display = 'block';
             } else {
                 throw new Error('Server responded with error: ' + response.status);
             }
-            
         } catch (error) {
             console.error('Error submitting form:', error);
-            // Show error message
             document.getElementById('loadingMsg').style.display = 'none';
             document.getElementById('errorMsg').style.display = 'block';
             document.getElementById('submitBtn').disabled = false;
         }
     });
     </script>
-
 </body>
 </html>
