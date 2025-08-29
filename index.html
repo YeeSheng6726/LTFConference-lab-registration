@@ -16,7 +16,7 @@
         
         <!-- Step 1 Label -->
         <div style="font-family: Arial, sans-serif; margin: 20px 0 10px 0; padding: 0;">
-            <h3 style="margin-top: 0; color: #0d47a1;">Step 1: Choose Your Breakout Lab</h3>
+            <h3 style="margin-top: 0; color: #0d47a1; font-size: 20px;">Step 1: Choose Your Breakout Lab</h3>
         </div>
 
         <!-- Selected Lab Display -->
@@ -26,14 +26,14 @@
         </div>
 
         <!-- Reselect Note -->
-        <p style="text-align: center; font-size: 14px; color: #666; margin: 0 0 30px 0;">
-            If you wish to reselect your Breakout Lab, please return to your email and select the correct Breakout Lab link.
+        <p style="font-size: 14px; color: #666; margin: 0 0 30px 0;">
+            💡If you wish to reselect your Breakout Lab, please return to your email and select the correct Breakout Lab button.
         </p>
         
         <form id="labRegistrationForm" style="max-width: 100%;">
             
             <!-- Full Name (read-only, auto-filled) -->
-            <div style="margin-bottom: 35px;">
+            <div style="margin-bottom: 68px;">
                 <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #2c3e50;">Your Full Name:</label>
                 <input type="text" name="participantName" id="participantNameInput" readonly 
                        style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; box-sizing: border-box; background: #f8f9fa; color: #666;">
@@ -46,7 +46,7 @@
 
             <!-- Step 2 Label (moved outside box) -->
             <div style="font-family: Arial, sans-serif; margin: 20px 0 10px 0; padding: 0;">
-                <h3 style="margin-top: 0; color: #0d47a1;">Step 2 (Optional): Upload Your Personal Photo</h3>
+                <h3 style="margin-top: 0; color: #0d47a1; font-size: 20px;">Step 2 (Optional): Upload Your Personal Photo</h3>
             </div>
 
             <!-- Optional Upload Message Block -->
@@ -112,7 +112,51 @@
     </style>
 
     <script>
-    // existing script unchanged
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedLab = urlParams.get('lab');
+    const emailFromUrl = urlParams.get('email');
+    const ticketIDFromUrl = urlParams.get('ticketID'); 
+    const nameFromUrl = urlParams.get('name');
+
+    // Map lab codes to display names
+    const labDisplayNames = {
+        'AI Data Analytics': '🤖 AI Data Analytics (Edmund Hee & Christine Tee)',
+        'AI Vibe Coding UX': '💻 AI Vibe Coding + UX (Marcus Chia & Shaza Hakim)',
+        'AI Automation': '⚡ AI Automation (Chan Wei Khjan & Choon Yee Sheng)'
+    };
+
+    // Set colors for different labs
+    const labColors = {
+        'AI Data Analytics': { bg: '#e3f2fd', border: '#3498db', text: '#1976d2' },
+        'AI Vibe Coding UX': { bg: '#e8f5e8', border: '#27ae60', text: '#2e7d32' },
+        'AI Automation': { bg: '#fff3e0', border: '#e67e22', text: '#f57c00' }
+    };
+
+    // Populate form with URL data
+    if (nameFromUrl) {
+        document.getElementById('participantNameInput').value = nameFromUrl;
+    }
+    if (ticketIDFromUrl) {
+        document.getElementById('ticketIDInput').value = ticketIDFromUrl; 
+    }
+    if (emailFromUrl) {
+        document.getElementById('emailInput').value = emailFromUrl;
+    }
+    
+    if (selectedLab && labDisplayNames[selectedLab]) {
+        document.getElementById('labNameDisplay').textContent = labDisplayNames[selectedLab];
+        document.getElementById('selectedLabInput').value = selectedLab;
+        const colors = labColors[selectedLab];
+        const displayDiv = document.getElementById('selectedLabDisplay');
+        displayDiv.style.background = colors.bg;
+        displayDiv.style.borderColor = colors.border;
+        document.getElementById('labNameDisplay').style.color = colors.text;
+    } else {
+        document.getElementById('selectedLabDisplay').innerHTML = 
+            '<h3 style="color: #dc3545; margin: 0;">❌ No lab selected</h3>' +
+            '<p style="margin: 5px 0 0 0; color: #666;">Please go back to the email and select a lab.</p>';
+    }
     </script>
 </body>
 </html>
