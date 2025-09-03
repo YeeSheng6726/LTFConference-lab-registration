@@ -175,7 +175,7 @@
             const photoFile = document.getElementById('photoInput').files[0];
             if (photoFile) formData.append('photo', photoFile);
 
-            const response = await fetch('https://ys286.zeabur.app/webhook-test/c057cf94-882e-4281-93e5-78a030c1e6d2', {
+            const response = await fetch('https://ys286.zeabur.app/webhook/c057cf94-882e-4281-93e5-78a030c1e6d2', {
                 method: 'POST',
                 body: formData
             });
